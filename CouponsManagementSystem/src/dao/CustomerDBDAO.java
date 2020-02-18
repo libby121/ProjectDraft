@@ -45,7 +45,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		Connection con = pool.getConnection();
 		try {
 			PreparedStatement stmt = con
-					.prepareStatement("insert into customers first_name,last_name,email,password values(?,?,?,?)");
+					.prepareStatement("insert into customers (first_name,last_name,email,password) values(?,?,?,?)");
 			stmt.setString(1, customer.getFirstName());
 			stmt.setString(2, customer.getLastName());
 			stmt.setString(3, customer.getEmail());
@@ -64,7 +64,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		// add a method for updating only part of details
 		try {
 			PreparedStatement stmt = con
-					.prepareStatement("update customers set first_name,last_name,email,password values(?,?,?)");
+					.prepareStatement("update customers set first_name=?, last_name=?, email=?, password=? where id="+customer.getId());
 			stmt.setString(1, customer.getFirstName());
 			stmt.setString(2, customer.getLastName());
 			stmt.setString(3, customer.getEmail());
@@ -84,12 +84,21 @@ public class CustomerDBDAO implements CustomerDAO {
 			PreparedStatement stmt = con
 					.prepareStatement("delete from customers where id=" + id);
 			stmt.execute();
-			System.out.println("customer deleted!");
+			System.out.println("customer deleted!");//what about the customer vs coupon table?
 
 		} finally {
 			pool.restoreConnection(con);
 		}
 	}
+	
+	public void deleteCustomerPurchase(int id) throws SQLException{//In order to delete i need both queries
+		Connection con=pool.getConnection();
+		try{
+			PreparedStatement stmt=con.prepareStatement("delete from customers_vs_coupons where customerID=" +id);
+			stmt.execute();
+		}finally{pool.restoreConnection(con);
+	}
+		}
 
 	@Override
 	public ArrayList<Customer> getAllcustomers() throws SQLException {
@@ -109,7 +118,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		}
 
 	}
-//get all customers of a company
+//get all customers of a company->in couponDAO
 	@Override
 	public Customer getOneCustmer(int id) throws SQLException {
 		Connection con= pool.getConnection();
@@ -123,7 +132,6 @@ public class CustomerDBDAO implements CustomerDAO {
 			}
 			System.out.println("no such customer!");
 			return null;
-			//System.out.println("no such cuxtomer!");
 			
 		}finally{pool.restoreConnection(con);}
 	}

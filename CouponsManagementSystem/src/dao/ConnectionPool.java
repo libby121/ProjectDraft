@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ConnectionPool {//singletone-only static method?
+public class ConnectionPool {//singleton-only static method?
 
 	private static ConnectionPool instance= new ConnectionPool();//one and only object of the class
 	//created each time the program runs?...//static object?
@@ -14,12 +14,12 @@ public class ConnectionPool {//singletone-only static method?
 	private static final int MAX_CONNECTIONS=10;
 	//constants are usually static. here it has no meaning, only one variable
 	//how can you tell the number of connections?depends on the hardware?
-	//final has no get/set
+	//final has no get/set!
 	private ConnectionPool(){
 		//System.out.println("test");
 		
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");//driver connection
 			for (int i = 1; i <=MAX_CONNECTIONS ; i++) {
 				connections.add(DriverManager.getConnection("jdbc:mysql://localhost:3306/coupons_management_system?serverTimezone=UTC",
 						"root", "1234"));	
@@ -45,7 +45,7 @@ public class ConnectionPool {//singletone-only static method?
 			} catch (InterruptedException e) { 
 			}
 		Connection con= connections.get(0);
-		connections.remove(con);//cannot be after return
+		connections.remove(0);//cannot be after return
 
 		return con;
 	}

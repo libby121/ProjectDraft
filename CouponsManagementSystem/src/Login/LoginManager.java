@@ -24,7 +24,7 @@ public class LoginManager {
 		return instance;//static getinstance method->singleton
 	}
 
-//static?
+
 	public Facade login(String email,String password, ClientType clientType) throws SQLException, AdminAccessDeniedException, CompanyDoesntExistException, CompanyAccessDeniedException, CustomerAccessDeniedException, AccessDeniedException{
 		//correct exceptions?
 		switch(clientType){

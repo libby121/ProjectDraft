@@ -9,33 +9,33 @@ public class Company {
 	private String name;
 	private String email;
 	private String password;
+	//private double balance; //company's balance column gets updated with a customer's purchase. 
+	//add balance to tostring
+//	public double getBalance() {
+//		return balance;
+//	}
+
 	private ArrayList<Coupon>coupons;
 	
-	public Company(){};
 	
-	public Company(int id, String name, String email, String password,
-			ArrayList<Coupon> coupons) {
+	public Company(int id, String name, String email) {
+		//In case admin facade is not adding the password to a new company
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.password = password;
-		this.coupons = coupons;
 	}
 
-	public Company(String name, String email, String password) {// when creating
-																// new company.
-																// its AI SO i
-																// cant give an
-																// id
-
+	public Company(String name, String email, String password) { 
+		//a CTOR for adding a new company to sql table(AI won't allow me to add id)
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		
 	}
 
-	public Company(int id, String name, String email, String password) {//when i want to read i do want t see the id
-
+	public Company(int id, String name, String email, String password) {
+		//a CTOR for reading a company from sql table
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -74,21 +74,21 @@ public class Company {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(String password) {//?
 		this.password = password;
 	}
 
 	
 	
-	@Override
-	public String toString() {
+	public String info() {
+		//an optional method for reading all about the company//?
 		return "Company [id=" + id + ", name=" + name + ", email=" + email
-				+ ", password=" + password + "]";
+				+ ", password=" + password + ", coupons=" + coupons+ "]";
 	}
 
-	public String getAllinformation() {
+	public String toString() {
 		return "Company info [id=" + id + ", name=" + name + ", email=" + email
-				+ ", password=" + password + ", coupons="+ coupons+"]";
+				+ ", password=" + password + "]";
 	}
 
 }

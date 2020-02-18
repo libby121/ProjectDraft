@@ -14,24 +14,26 @@ public class Coupon {
 	private int amount;
 	private double price;
 	private String image;
-	
-	
-	
-	
-	public Coupon(int id, int companyID, Category category) {
+	private boolean IsSalePrice;
+
+
+
+
+	public Coupon(int id, int companyID, Category category, String title,
+			String description, Date startDate, Date endDate, int amount,
+			double price, String image, boolean isSalePrice) {
 		super();
 		this.id = id;
 		this.companyID = companyID;
 		this.category = category;
-	}
-
-
-
-	public Coupon(int id, Category category, String title) {
-		super();
-		this.id = id;
-		this.category = category;
 		this.title = title;
+		this.description = description;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.amount = amount;
+		this.price = price;
+		this.image = image;
+		IsSalePrice = isSalePrice;
 	}
 
 
@@ -66,14 +68,8 @@ public class Coupon {
 		this.amount = amount;
 		this.price = price;
 		this.image = image;
+
 	}
-
-
-	public int getId() {
-		return id;
-	}
-
-
 
 	public int getCompanyID() {
 		return companyID;
@@ -171,12 +167,40 @@ public class Coupon {
 				+ startDate + ", endDate=" + endDate + ", amount=" + amount
 				+ ", price=" + price + ", image=" + image + ",Category="+category +"]";
 	}
-	
 
-	public String toPrint(){
+
+	public String toPrint(){//?same signature
+		//a short version of toString
 		return String.format("id=%s, Category=%s,title=%s", id,category,title);
 	}
-	
-	
+
+
+
+	public boolean isSalePrice() {
+		return IsSalePrice;
+	}
+
+
+
+	public void setIsSalePrice(boolean isSalePrice) {
+		IsSalePrice = isSalePrice;
+	}
+
+
+
+	public int getId() {
+		return id;
+	}
+
+
+
+
+
+
+
+
+
 }
+
+
 

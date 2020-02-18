@@ -1,85 +1,71 @@
 package jobThread;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Calendar;
 
 import beans.Coupon;
 import dao.CouponDAO;
 import dao.CouponDBDAO;
-import facades.CompanyFacade;
 
 public class CouponExpirationDailyJob extends Thread {
 
-	private Calendar cal=Calendar.getInstance();
-	private CouponDAO coupDAO=new CouponDBDAO();//downcasting
+	// private Calendar cal=Calendar.getInstance();
+	private CouponDAO coupDAO = new CouponDBDAO();// downcasting
 	private boolean quit;
 
-	
+	// public CouponExpirationDailyJob() {//defaultic- no t needed?
+	// super();
+	// }
+	public void run() {
 
-	public CouponExpirationDailyJob() {
-		super();
-	}
-
-//	public CouponExpirationDailyJob(CouponDAO coupDAO, boolean quit) {
-//
-//		this.coupDAO = coupDAO;
-//		this.quit = quit;//default is false in boolean
-//	}
-//
-//	public CouponExpirationDailyJob() {
-//		// TODO Auto-generated constructor stub
-//	}
-
-	public void run(){
-		while(!quit){
-			Calendar time=cal.getInstance();//Calendar.getInstance?
-			try {//WHY ONLY CATCH HERE?
+		while (!quit) {
+			Calendar time = Calendar.getInstance();
+			try {
 				for (Coupon coup : coupDAO.getAllcoupons()) {
+					if (time.getTime().after((coup.getEndDate()))) {
+						System.out.println("coupon " + coup.getId()
+								+ " has expired and deleted ");
 
-					//				cal.setTime(coup.getEndDate());
-					//				int month = cal.get(Calendar.MONTH);
-					//				int day = cal.get(Calendar.DAY_OF_MONTH);
-					//				int year = cal.get(Calendar.YEAR);
+						coupDAO.deleteCouponPurchase(coup.getId());
+						coupDAO.deleteCoupon(coup.getId());
 
 
-
-					//	String str=coup.getEndDate;
-					if(coup.getEndDate().after(cal.getTime())){
-
-						//if(((Date.valueOf(str).after(cal.getTime()))){
-						//if(time.after(coup.getEndDate())){
-						///coupDAO.deleteCoupon(coup.getId());
-						CompanyFacade fac=new CompanyFacade();//here? new? why not above
-						fac.deleteCoupon(coup.getId());
+						//}System.out.println(coup.getId()+ " :" +coup.isSalePrice()+" : "+coup.getPrice());
 
 					}
+					if ((coup.getAmount() <= 100 && coup.getAmount()>10)
+							&& 
+							(coup.isSalePrice()==false)) {
+						//System.out.println(coup.isIsSalePrice());
+
+						coup.setPrice(coup.getPrice() * 0.8);//each time reduces the price
+
+						coup.setIsSalePrice(true);
+//						System.out.println("test2");
+						coupDAO.updateCoupon(coup);
+						//System.out.println(coup.isIsSalePrice());
+						//error
+						// go through the differences in coupon
+						System.out
+						.println("**limited time sale** 20% off on coupon number "
+								+ coup.getId()+" ** "+coup.getTitle()+"**  of company: "+coup.getCompanyID());
+					}
+					//System.out.println(coup.isIsSalePrice());
+					//}
+
+				} }catch (SQLException e) {
+					System.out.println("error!" + e.getMessage());
 				}
-
-
-			}
-			catch (SQLException e) { System.out.println("error!"+e.getMessage());
-
 			try {
-				Thread.sleep(86_400_00);
+				Thread.sleep(60*60);
 			} catch (InterruptedException e1) {
-			}
 			}
 		}
 
-
 	}
 
-	public void JobStop(){
-		quit=true;
-		interrupt();//the method belongs this class.no need new
-//		if(quit){//if someone changed the var to true
-//			CouponExpirationDailyJob t1=new CouponExpirationDailyJob(); //? 
-//
-//			t1.interrupt();//?
-//			quit=false;//in case someone will restart the thread
-//
-//		}
-	}}
-
-
+	public void JobStop() {
+		quit = true;
+		interrupt();
+	}
+}

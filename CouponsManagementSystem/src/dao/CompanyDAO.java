@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import beans.Company;
+import beans.Coupon;
 
 public interface CompanyDAO {//all methods are automatically public->interface
 
@@ -12,13 +13,15 @@ public interface CompanyDAO {//all methods are automatically public->interface
 	void addCompany(Company company) throws SQLException;
 
 	void updateCompany(Company company)throws SQLException;
-	void updateCompany(int id)throws SQLException;
+	//void updateCompany(int id)throws SQLException;
 
 	void deleteCompany(int id)throws SQLException;
 
 	ArrayList<Company> getAllCompanies()throws SQLException;// dont we take companies
 
 	Company getOneCompany(int id)throws SQLException;
+	
+	//ArrayList<Coupon>getOneCompanyCoupons(int id) throws SQLException;
 
 	
 }

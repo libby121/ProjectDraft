@@ -8,63 +8,69 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import dao.CompanyDBDAO;
 import dao.CouponDBDAO;
+import dao.CustomerDBDAO;
+import exceptions.AccessDeniedException;
+import exceptions.AdminAccessDeniedException;
+import exceptions.CompanyAccessDeniedException;
+import exceptions.CompanyDoesntExistException;
+import exceptions.CompanyExistsException;
+import exceptions.CouponExpiredException;
+import exceptions.CouponTitleDupliactionException;
+import exceptions.CustomerAccessDeniedException;
+import exceptions.CustomerExistsException;
+import exceptions.NoSuchCouponsCategoryException;
+import exceptions.couponOutOfStockException;
+import exceptions.couponPurchaseDuplication;
+import exceptions.maxPriceException;
+import exceptions.unchangableCompanyIdException;
+import facades.AdminFacade;
+import facades.CompanyFacade;
+import facades.CustomerFacade;
+import facades.Facade;
+import Login.ClientType;
+import Login.LoginManager;
 import beans.Category;
+import beans.Company;
 import beans.Coupon;
+import beans.Customer;
 
 public class TempMain {
 
-	public static void main(String[] args) throws SQLException {
-//		Coupon coup=new Coupon(1,Category.clothes,"skirt");
-//		Coupon coupy=new Coupon(2,Category.clothes,"skirt");
-//		System.out.println(coup.getCategory().compareTo(coupy.getCategory()));
-//		if(!(coup.getCategory().compareTo(coupy.getCategory())==1){
-//			System.out.println("equality!");
-		}
+	public static void main(String[] args) throws SQLException, AdminAccessDeniedException, CompanyDoesntExistException, CompanyAccessDeniedException, CustomerAccessDeniedException, AccessDeniedException, CouponTitleDupliactionException, maxPriceException, NoSuchCouponsCategoryException, unchangableCompanyIdException, couponPurchaseDuplication, couponOutOfStockException, CouponExpiredException, CompanyExistsException, CustomerExistsException {
 		
-		//		System.out.println("hello");
-		//		CompanyDBDAO test=new CompanyDBDAO();
-		//		
-		//		try{
-		//			test.addCompany(company);
-		//		}catch(){}
-		//		
-
-		//		Coupon coupon =new Coupon(567,65,Category.values()[1]);
-		//		System.out.println(coupon);
-		//String str="2020-01-31";
-		//String str2="2021-01-31";
-
-		//Coupon coup = new Coupon(24,1, Category.spa, "best sales", "time to shop!", Date.valueOf(str), Date.valueOf("2021-01-31"), 200, 34.6, "cloth modeling@");
-
-		//CouponDBDAO CO= new CouponDBDAO();//can i create an obj without a ctor, can i create a obj from any class
-		//	try {
-		//		CO.addCoupon(coup);
-		//	} catch (SQLException e) {
-		//	}
-		//CO.updateCoupon(coup);
-
-//		try {
-//			test() ;
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	public static int test() throws Exception {
-//
-//		try{
-//			System.out.println("1");
-//			throw new Exception();
-//			//return 0;
-//
-//
-//		}finally{System.out.println("2");}//why doesnt he ask for return null
-//	}
-
-
-	CouponDBDAO coup=new CouponDBDAO();
-coup.
+		CompanyDBDAO compDBD=new CompanyDBDAO();
+		CouponDBDAO coupDBD=new CouponDBDAO();
+		AdminFacade adminF=new AdminFacade();
+		LoginManager lo=LoginManager.getInstance();
+		Facade facade=lo.login("com.admin@admin", "admain", ClientType.Administrator);
+		if(facade instanceof AdminFacade){
+			if (facade instanceof AdminFacade) {
+				AdminFacade admin = ((AdminFacade) facade);
+			//	admin.addCompany(new Company("company17", "company17@", "12345"));
+			
+		//admin.addCompany(new Company("123company", "123company@", "12345"));//adding automatically password?
+		//admin.addCustomer(new Customer("moshe", "cohen", "moshe@"));
+			//admin.deleteCompany(3);
+			//	compDBD.deleteCompany(id);
+			//admin.addCustomer(new Customer("keren", "dovkin", "moshe@"));
+				//admin.updateCompany(new Company(5, "febCompan", "feb@", "updated"));
+//			for (Customer company : admin.getAllCustomers()) {
+//				System.out.println(company);
+//			}
+				admin.addCompany(new Company("company", "company@new",
+						"12333"));
+				//System.out.println("added");
+			//	System.out.println(admin.getOneCompany(1).getCoupons());//???
+				
+			}
+			
+			
+		}}}
+		
 	
-}
+			
+			
+			
+	
